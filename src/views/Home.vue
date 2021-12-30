@@ -104,14 +104,12 @@
                           styled="secondary"/>
             </div>
             <h2 class="paragraph-title mt-8" data-paragraph-index="3">Прикрепіть файл</h2>
-            <div class="percent-wrap" data-pervent-val="100%">
-              <p class="mt-4 pt-2">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
+              <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
               <p class="mt-2">Формати: doc, docx.</p>
-              <BaseInputFile  class="mt-6"
-                              name="Name23"/>
-              <br/>
+              <div class="percent-wrap mt-6" data-pervent-val="100%">
+                <BaseInputFile  name="Name23"/>
+              </div>
               <BaseButton class="mt-8" title="Відправити"/>
-            </div>
           </form>
         </div>
       </div>

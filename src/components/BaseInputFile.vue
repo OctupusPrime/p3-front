@@ -23,6 +23,6 @@ export default {
   .base-file-input-label {
     @apply inline-block max-w-xs w-full border-dashed border-2 
   border-blue-500 rounded px-4 py-3 text-blue-500 cursor-pointer text-center
-    focus-within:ring focus-within:border-blue-500
+    focus-within:ring focus-within:border-blue-500 font-bold;
   }
 </style>
