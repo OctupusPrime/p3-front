@@ -16,10 +16,5 @@ body {
 }
 
 a {
-  @apply text-blue-500;
-}
-
-.base-input { 
-  @apply bg-white rounded text-base px-4 py-3 border-2 border-gray-300 w-full 
-  focus:outline-none focus:ring focus:border-blue-500;
+  @apply text-blue-500 focus:ring focus:border-blue-500 outline-none rounded;
 }

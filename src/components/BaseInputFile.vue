@@ -1,8 +1,7 @@
 <template>
-    <label class="inline-block max-w-xs w-full border-dashed border-2 
-            border-blue-500 rounded px-4 py-3 text-blue-500 cursor-pointer text-center">
-        <font-awesome-icon icon="file-word"/>&emsp;Загрузить файл
-        <input  class="hidden"
+    <label class="base-file-input-label">
+        <font-awesome-icon icon="file-word" class="mr-2.5"/>Загрузить файл
+        <input  class="w-0"
                 type="file"
                 :name="name">
     </label>
@@ -13,9 +12,17 @@ export default {
   name: 'BaseInputFile',
   props: {
     name: {
-      require: true,
+      required: true,
       type: String
     }
   }
 }
 </script>
+
+<style scoped>
+  .base-file-input-label {
+    @apply inline-block max-w-xs w-full border-dashed border-2 
+  border-blue-500 rounded px-4 py-3 text-blue-500 cursor-pointer text-center
+    focus-within:ring focus-within:border-blue-500
+  }
+</style>

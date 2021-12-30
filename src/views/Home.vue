@@ -9,7 +9,7 @@
       <div class="flex mt-10">
         <div class="left-line w-[20%]">
           <div class="absolute left-[50%] bottom-0 translate-x-[-50%] pb-[11px] bg-white">
-            <font-awesome-icon icon="check" class="text-3xl"/>
+            <font-awesome-icon icon="flag-checkered" class="text-3xl"/>
           </div>
         </div>
         <div class="w-full">
@@ -78,25 +78,39 @@
                   <BaseInput  name="Name16"
                               placeholder="Спеціальність"/>
               </div>
-                  <BaseInput  class="mt-6"
-                              name="Name17"
-                              placeholder="Назва доповіді"/>
-              <div class="flex gap-6 mt-6">
-                  <BaseInput  name="Name18"
-                              placeholder="Телефон"/>
+              <BaseInput  class="mt-6"
+                          name="Name17"
+                          placeholder="Назва доповіді"/>
+              <div class="flex mt-6 gap-6">
+                  <BaseSelectInput  name="Name18"
+                                    placeholder="Спеціальність"
+                                    :options="['One', 'Two']"/>          
                   <BaseInput  name="Name19"
+                              type="date"
+                              topPlaceholder="Дата приїзду"/>          
+                  <BaseInput  name="Name20"
+                              type="date"
+                              topPlaceholder="Дата від’їзду"/>                      
+              </div>
+              <div class="flex gap-6 mt-6">
+                  <BaseInput  name="Name21"
+                              placeholder="Телефон"/>
+                  <BaseInput  name="Name22"
                               placeholder="Email"/>      
               </div>        
-              <BaseButton class="mt-8"/>
+              <BaseButton class="mt-8"
+                          title="Додати пидора" 
+                          icon="user-plus"
+                          styled="secondary"/>
             </div>
             <h2 class="paragraph-title mt-8" data-paragraph-index="3">Прикрепіть файл</h2>
             <div class="percent-wrap" data-pervent-val="100%">
               <p class="mt-4 pt-2">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
               <p class="mt-2">Формати: doc, docx.</p>
               <BaseInputFile  class="mt-6"
-                              name="Name20"/>
+                              name="Name23"/>
               <br/>
-              <BaseButton class="mt-8"/>
+              <BaseButton class="mt-8" title="Відправити"/>
             </div>
           </form>
         </div>
@@ -108,9 +122,10 @@
 <script>
 import { defineComponent } from 'vue'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseButton from '@/components/BaseButton.vue'
 import BaseResizeTextArea from '@/components/BaseResizeTextArea.vue'
 import BaseInputFile from '@/components/BaseInputFile.vue'
-import BaseButton from '@/components/BaseButton.vue'
+import BaseSelectInput from '@/components/BaseSelectInput.vue'
 
 export default defineComponent({
   name: 'Home',
@@ -118,7 +133,8 @@ export default defineComponent({
     BaseInput,
     BaseResizeTextArea,
     BaseInputFile,
-    BaseButton
+    BaseButton,
+    BaseSelectInput
   },
   setup() {
   }
@@ -139,7 +155,7 @@ export default defineComponent({
 }
 .left-line::before {
   content: '';
-  @apply absolute top-0 bottom-0 left-[50%] translate-x-[-50%] border-dotted border-l-4 border-gray-500;
+  @apply absolute top-0 bottom-0 left-[50%] translate-x-[-50%] border-dotted border-l-4 border-gray-400;
 }
 .percent-wrap {
   @apply relative;
