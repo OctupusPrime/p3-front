@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="w-full">
-          <form>
+          <form @submit.prevent="send">
             <h2 class="paragraph-title" data-paragraph-index="1">Дані про тезу</h2>
             <div class="percent-wrap" data-pervent-val="30%">
               <p class="mt-2">
@@ -71,6 +71,7 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useStore } from "vuex"
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseResizeTextArea from '@/components/BaseResizeTextArea.vue'
@@ -87,6 +88,15 @@ export default defineComponent({
     AddAuthor
   },
   setup() {
+    const store = useStore()
+
+    const send = () => {
+      store.dispatch('getStatus')
+    }
+
+    return {
+      send
+    }
   }
 })
 </script>

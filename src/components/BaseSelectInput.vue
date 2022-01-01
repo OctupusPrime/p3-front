@@ -15,7 +15,7 @@ export default {
         },
         options: {
             required: true,
-            type: [String]
+            type: Array
         }
     }
 }
