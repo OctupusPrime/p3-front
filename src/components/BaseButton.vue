@@ -1,6 +1,7 @@
 <template>
     <button class="btn"
-            :class="['btn-' + styled]" >
+            :class="['btn-' + styled]"
+            type="button">
         <font-awesome-icon v-if="icon" :icon="icon" class="mr-2.5"/>{{title}}
     </button>
 </template>

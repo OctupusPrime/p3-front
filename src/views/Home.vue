@@ -20,28 +20,28 @@
                 <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>Усі поля є обов’язковими для заповнення
               </p>
               <div class="flex gap-6 mt-6">
-                  <BaseInput  name="Name"
+                  <BaseInput  name="theseName"
                               placeholder="Назва тези"/>
-                  <BaseInput  name="Name2"
+                  <BaseInput  name="theseNameEng"
                               placeholder="Назва тези англійською"/>      
               </div>
               <BaseResizeTextArea class="mt-6"
-                                  name="Name3"
+                                  name="summary"
                                   minHeight="100"
                                   maxHeight="200"
                                   placeholder="Анотація(6-7 рядків)"/>
               <BaseResizeTextArea class="mt-6"
-                                  name="Name4"
+                                  name="summaryEng"
                                   minHeight="100"
                                   maxHeight="200"
                                   placeholder="Анотація англ. мовою"/>                   
               <BaseResizeTextArea class="mt-6"
-                                  name="Name5"
+                                  name="keyWords"
                                   minHeight="100"
                                   maxHeight="200"
                                   placeholder="Ключові слова(6-7 слів)"/>              
               <BaseResizeTextArea class="mt-6"
-                                  name="Name5"
+                                  name="keyWordsEng"
                                   minHeight="100"
                                   maxHeight="200"
                                   placeholder="Ключові слова англ. мовою"/> 
@@ -51,65 +51,17 @@
               <p class="mt-2">
                 <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>Усі поля є обов’язковими для заповнення
               </p>   
-              <h3 class="mt-6">Автор 1</h3>
-              <div class="grid grid-cols-3 gap-x-5 gap-y-6 mt-6">
-                  <BaseInput  name="Name6"
-                              placeholder="Ім’я"/>
-                  <BaseInput  name="Name7"
-                              placeholder="Прізвище"/>  
-                  <BaseInput  name="Name8"
-                              placeholder="По батькові"/>
-                  <BaseInput  name="Name9"
-                              placeholder="Ім’я англ."/>  
-                  <BaseInput  name="Name10"
-                              placeholder="Прізвище англ."/>
-              </div>
-              <div class="grid grid-cols-2 gap-6 mt-6">
-                  <BaseInput  name="Name11"
-                              placeholder="Наукова ступінь"/>
-                  <BaseInput  name="Name12"
-                              placeholder="Вчене звання"/>  
-                  <BaseInput  name="Name13"
-                              placeholder="Посада, місце роботи, навчання"/>
-                  <BaseInput  name="Name14"
-                              placeholder="Освітньо-кваліфікаційний рівень"/>  
-                  <BaseInput  name="Name15"
-                              placeholder="Кафедра, факультет, ВНЗ"/>
-                  <BaseInput  name="Name16"
-                              placeholder="Спеціальність"/>
-              </div>
-              <BaseInput  class="mt-6"
-                          name="Name17"
-                          placeholder="Назва доповіді"/>
-              <div class="flex mt-6 gap-6">
-                  <BaseSelectInput  name="Name18"
-                                    placeholder="Спеціальність"
-                                    :options="['One', 'Two']"/>          
-                  <BaseInput  name="Name19"
-                              type="date"
-                              topPlaceholder="Дата приїзду"/>          
-                  <BaseInput  name="Name20"
-                              type="date"
-                              topPlaceholder="Дата від’їзду"/>                      
-              </div>
-              <div class="flex gap-6 mt-6">
-                  <BaseInput  name="Name21"
-                              placeholder="Телефон"/>
-                  <BaseInput  name="Name22"
-                              placeholder="Email"/>      
-              </div>        
-              <BaseButton class="mt-8"
-                          title="Додати пидора" 
-                          icon="user-plus"
-                          styled="secondary"/>
+              <AddAuthor :maxAuthors="3"/>
             </div>
             <h2 class="paragraph-title mt-8" data-paragraph-index="3">Прикрепіть файл</h2>
               <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
               <p class="mt-2">Формати: doc, docx.</p>
               <div class="percent-wrap mt-6" data-pervent-val="100%">
-                <BaseInputFile  name="Name23"/>
+                <BaseInputFile  name="uplaodFile"/>
               </div>
-              <BaseButton class="mt-8" title="Відправити"/>
+              <BaseButton class="mt-8" 
+                  title="Відправити"
+                  type="submit"/>
           </form>
         </div>
       </div>
@@ -123,7 +75,7 @@ import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseResizeTextArea from '@/components/BaseResizeTextArea.vue'
 import BaseInputFile from '@/components/BaseInputFile.vue'
-import BaseSelectInput from '@/components/BaseSelectInput.vue'
+import AddAuthor from '@/components/AddAuthor.vue'
 
 export default defineComponent({
   name: 'Home',
@@ -132,7 +84,7 @@ export default defineComponent({
     BaseResizeTextArea,
     BaseInputFile,
     BaseButton,
-    BaseSelectInput
+    AddAuthor
   },
   setup() {
   }

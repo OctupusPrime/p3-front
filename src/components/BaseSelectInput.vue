@@ -1,6 +1,6 @@
 <template>
     <select class="base-input">
-        <option value="" disabled selected>Форма участі</option>
+        <option value="" disabled selected>{{placeholder}}</option>
         <option v-for="option in options" :key="option" value="option">{{option}}</option>
     </select>
 </template>
@@ -9,11 +9,10 @@
 export default {
     name: 'BaseSelectInput',
     props: {
-        name: {
-            required: true,
-            type: String
+        placeholder: {
+            type: String,
+            default: '---'
         },
-        placeholder: String,
         options: {
             required: true,
             type: [String]
