@@ -3,20 +3,41 @@
         <font-awesome-icon icon="file-word" class="mr-2.5"/>Загрузить файл
         <input  class="w-0"
                 type="file"
-                :name="name">
+                :name="name"
+                @change="fileToBuffer($event.target)">
     </label>
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'BaseInputFile',
   props: {
     name: {
       required: true,
       type: String
     }
+  },
+  setup() {
+    const fileToBuffer = (elem) => {
+      const reader = new FileReader()
+
+      reader.onload = function() {
+
+      const arrayBuffer = this.result
+        // array = new Uint8Array(arrayBuffer),
+        // binaryString = String.fromCharCode.apply(null, array);
+
+    console.log(arrayBuffer);
+      }
+      reader.readAsArrayBuffer(elem.files[0]);
+    }
+    return {
+      fileToBuffer
+    }
   }
-}
+})
 </script>
 
 <style scoped>

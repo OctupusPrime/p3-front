@@ -6,8 +6,9 @@ export default {
     mutations: {
     },
     actions: {
-        async getStatus() {
-            console.log(1)
+        async getStatus({none}, params) {
+            console.log(none)
+            console.log(params)
             await axios.get('http://localhost:3000/status')
         }
     },

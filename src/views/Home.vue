@@ -21,37 +21,116 @@
               </p>
               <div class="flex gap-6 mt-6">
                   <BaseInput  name="theseName"
-                              placeholder="Назва тези"/>
+                              placeholder="Назва тези"
+                              v-model="reqBody.theseName"/>
                   <BaseInput  name="theseNameEng"
-                              placeholder="Назва тези англійською"/>      
+                              placeholder="Назва тези англійською"
+                              v-model="reqBody.theseNameEng"/>      
               </div>
               <BaseResizeTextArea class="mt-6"
                                   name="summary"
                                   minHeight="100"
                                   maxHeight="200"
-                                  placeholder="Анотація(6-7 рядків)"/>
+                                  placeholder="Анотація(6-7 рядків)"
+                                  v-model="reqBody.summary"/>
               <BaseResizeTextArea class="mt-6"
                                   name="summaryEng"
                                   minHeight="100"
                                   maxHeight="200"
-                                  placeholder="Анотація англ. мовою"/>                   
+                                  placeholder="Анотація англ. мовою"
+                                  v-model="reqBody.summaryEng"/>                   
               <BaseResizeTextArea class="mt-6"
                                   name="keyWords"
                                   minHeight="100"
                                   maxHeight="200"
-                                  placeholder="Ключові слова(6-7 слів)"/>              
+                                  placeholder="Ключові слова(6-7 слів)"
+                                  v-model="reqBody.keyWords"/>              
               <BaseResizeTextArea class="mt-6"
                                   name="keyWordsEng"
                                   minHeight="100"
                                   maxHeight="200"
-                                  placeholder="Ключові слова англ. мовою"/> 
+                                  placeholder="Ключові слова англ. мовою"
+                                  v-model="reqBody.keyWordsEng"/> 
             </div>
             <h2 class="paragraph-title mt-8" data-paragraph-index="2">Інформація про авторів</h2>
             <div class="percent-wrap" data-pervent-val="90%">
               <p class="mt-2">
                 <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>Усі поля є обов’язковими для заповнення
               </p>   
-              <AddAuthor :maxAuthors="3"/>
+              <div v-for="(author, index) in authors" :key="author">
+                  <h3 class="mt-6">Автор {{index + 1}}</h3>
+                  <div class="grid grid-cols-3 gap-x-5 gap-y-6 mt-6">
+                      <BaseInput  name="name"
+                                  placeholder="Ім’я"
+                                  v-model="author.name"/>
+                      <BaseInput  name="surname"
+                                  placeholder="Прізвище"
+                                  v-model="author.surname"/>  
+                      <BaseInput  name="patronymic"
+                                  placeholder="По батькові"
+                                  v-model="author.patronymic"/>
+                      <BaseInput  name="nameEng"
+                                  placeholder="Ім’я англ."
+                                  v-model="author.nameEng"/>  
+                      <BaseInput  name="surnameEng"
+                                  placeholder="Прізвище англ."
+                                  v-model="author.surnameEng"/>
+                  </div>
+                  <div class="grid grid-cols-2 gap-6 mt-6">
+                      <BaseInput  name="scientificDegree"
+                                  placeholder="Наукова ступінь"
+                                  v-model="author.scientificDegree"/>
+                      <BaseInput  name="academicStatus"
+                                  placeholder="Вчене звання"
+                                  v-model="author.academicStatus"/>  
+                      <BaseInput  name="position-placeOfWork-Training"
+                                  placeholder="Посада, місце роботи, навчання"
+                                  v-model="author.position"/>
+                      <BaseInput  name="educationalQualificationLevel"
+                                  placeholder="Освітньо-кваліфікаційний рівень"
+                                  v-model="author.educationalQualificationLevel"/>  
+                      <BaseInput  name="department-faculty"
+                                  placeholder="Кафедра, факультет, ВНЗ"
+                                  v-model="author.faculty"/>
+                      <BaseInput  name="speciality"
+                                  placeholder="Спеціальність"
+                                  v-model="author.speciality"/>
+                  </div>
+                  <BaseInput  class="mt-6"
+                              name="titleOfTheReport"
+                              placeholder="Назва доповіді"
+                              v-model="author.titleOfTheReport"/>
+                  <div class="flex mt-6 gap-6">
+                      <BaseSelectInput  name="formOfParticipation"
+                                      placeholder="Форма участі"
+                                      :options="['Очна', 'Заочна']"
+                                      v-model="author.formOfParticipation"/>          
+                      <BaseInput  name="arrivalDate"
+                                  type="date"
+                                  data-input-top-placeholder="Дата приїзду"
+                                  v-model="author.arrivalDate"/>          
+                      <BaseInput  name="departureDate"
+                                  type="date"
+                                  data-input-top-placeholder="Дата від’їзду"
+                                  v-model="author.departureDate"/>                      
+                  </div>
+                  <div class="flex gap-6 mt-6">
+                      <BaseInput  name="phone"
+                                  placeholder="Телефон"
+                                  v-model="author.phone"/>
+                      <BaseInput  name="email"
+                                  placeholder="Email"
+                                  v-model="author.email"/>      
+                  </div>      
+              </div>
+              <div class="mt-8">
+                  <BaseButton title="Додати автора" 
+                              icon="user-plus"
+                              styled="secondary"
+                              v-if="authors.length < maxAuthors"
+                              @click="addAuthor"/>
+                  <p v-else>Максимальна кількість авторів {{maxAuthors}}.</p>
+              </div>
             </div>
             <h2 class="paragraph-title mt-8" data-paragraph-index="3">Прикрепіть файл</h2>
               <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
@@ -70,14 +149,13 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useStore } from "vuex"
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseResizeTextArea from '@/components/BaseResizeTextArea.vue'
+import BaseSelectInput from '@/components/BaseSelectInput.vue'
 import BaseInputFile from '@/components/BaseInputFile.vue'
-import AddAuthor from '@/components/AddAuthor.vue'
-
 export default defineComponent({
   name: 'Home',
   components: {
@@ -85,17 +163,31 @@ export default defineComponent({
     BaseResizeTextArea,
     BaseInputFile,
     BaseButton,
-    AddAuthor
+    BaseSelectInput
   },
   setup() {
     const store = useStore()
 
+    const reqBody = ref({})
+
     const send = () => {
-      store.dispatch('getStatus')
+      reqBody.value.authors = [...authors.value]
+      store.dispatch('getStatus', reqBody.value)
+    }
+
+    const maxAuthors = 3
+    const authors = ref([{}])
+
+    const addAuthor = () => {
+        authors.value.push({})
     }
 
     return {
-      send
+      send,
+      reqBody,
+      maxAuthors,
+      authors,
+      addAuthor
     }
   }
 })
