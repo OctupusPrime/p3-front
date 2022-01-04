@@ -17,21 +17,24 @@ export default defineComponent({
     name: {
       required: true,
       type: String
-    }
+    },
+    modelValue: File
   },
-  setup() {
+  setup(props, {emit}) {
     const fileToBuffer = (elem) => {
-      const reader = new FileReader()
+      // const reader = new FileReader()
 
-      reader.onload = function() {
+    //   reader.onload = function() {
 
-      const arrayBuffer = this.result
-        // array = new Uint8Array(arrayBuffer),
-        // binaryString = String.fromCharCode.apply(null, array);
-
-    console.log(arrayBuffer);
-      }
-      reader.readAsArrayBuffer(elem.files[0]);
+    //   const arrayBuffer = this.result
+    //     // array = new Uint8Array(arrayBuffer),
+    //     // binaryString = String.fromCharCode.apply(null, array);
+      
+    // console.log(arrayBuffer);
+    //   }
+    console.log(elem.files[0].path);
+    emit('update:modelValue', elem.files[0])
+      // reader.readAsArrayBuffer(elem.files[0]);
     }
     return {
       fileToBuffer

@@ -8,8 +8,15 @@ export default {
     actions: {
         async getStatus({none}, params) {
             console.log(none)
-            console.log(params)
-            await axios.get('http://localhost:3000/status')
+            const formData = new FormData()
+            formData.append('file', params.uploadFile)
+            formData.append('data', JSON.stringify(params))
+            // console.log(formData.get('file'))
+            axios.post('https://p3m-back.herokuapp.com/api/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
         }
     },
     modules: {

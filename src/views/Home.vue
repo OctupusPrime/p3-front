@@ -136,7 +136,7 @@
               <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
               <p class="mt-2">Формати: doc, docx.</p>
               <div class="percent-wrap mt-6" data-pervent-val="100%">
-                <BaseInputFile  name="uplaodFile"/>
+                <BaseInputFile  name="uploadFile" v-model="reqBody.uploadFile"/>
               </div>
               <BaseButton class="mt-8" 
                   title="Відправити"
@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useStore } from "vuex"
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
@@ -168,18 +168,19 @@ export default defineComponent({
   setup() {
     const store = useStore()
 
-    const reqBody = ref({})
+    const reqBody = reactive({})
 
     const send = () => {
-      reqBody.value.authors = [...authors.value]
-      store.dispatch('getStatus', reqBody.value)
+      reqBody.authors = [...authors]
+      console.log(reqBody);
+      store.dispatch('getStatus', reqBody)
     }
 
     const maxAuthors = 3
-    const authors = ref([{}])
+    const authors = reactive([{}])
 
     const addAuthor = () => {
-        authors.value.push({})
+        authors.push({})
     }
 
     return {

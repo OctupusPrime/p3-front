@@ -2,7 +2,7 @@
     <input  class="base-input"
             type="text"
             :value="modelValue"
-            autocomplete="none"
+            autocomplete="false"
             @change="$emit('update:modelValue', $event.target.value)">
 </template>
 
