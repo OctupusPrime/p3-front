@@ -13,114 +13,143 @@
           </div>
         </div>
         <div class="w-full">
-          <form @submit.prevent="send">
+          <form @submit.prevent="send" @keydown.enter.prevent>
             <h2 class="paragraph-title" data-paragraph-index="1">Дані про тезу</h2>
             <div class="percent-wrap" data-pervent-val="30%">
               <p class="mt-2">
-                <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>Усі поля є обов’язковими для заповнення
+                <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>
+                Поля з <span class="text-red-700 font-bold">*</span> є обов’язковими для заповнення
               </p>
               <div class="flex gap-6 mt-6">
                   <BaseInput  name="theseName"
                               placeholder="Назва тези"
-                              v-model="reqBody.theseName"/>
+                              v-model="reqBody.theseName"
+                              required="required"/>
                   <BaseInput  name="theseNameEng"
                               placeholder="Назва тези англійською"
-                              v-model="reqBody.theseNameEng"/>      
+                              v-model="reqBody.theseNameEng"
+                              required="required"/>      
               </div>
               <BaseResizeTextArea class="mt-6"
                                   name="summary"
                                   minHeight="100"
                                   maxHeight="200"
                                   placeholder="Анотація(6-7 рядків)"
-                                  v-model="reqBody.summary"/>
+                                  v-model="reqBody.summary"
+                                  required="required"/>
               <BaseResizeTextArea class="mt-6"
                                   name="summaryEng"
                                   minHeight="100"
                                   maxHeight="200"
                                   placeholder="Анотація англ. мовою"
-                                  v-model="reqBody.summaryEng"/>                   
+                                  v-model="reqBody.summaryEng"
+                                  required="required"/>                   
               <BaseResizeTextArea class="mt-6"
                                   name="keyWords"
                                   minHeight="100"
                                   maxHeight="200"
                                   placeholder="Ключові слова(6-7 слів)"
-                                  v-model="reqBody.keyWords"/>              
+                                  v-model="reqBody.keyWords"
+                                  required="required"/>              
               <BaseResizeTextArea class="mt-6"
                                   name="keyWordsEng"
                                   minHeight="100"
                                   maxHeight="200"
                                   placeholder="Ключові слова англ. мовою"
-                                  v-model="reqBody.keyWordsEng"/> 
+                                  v-model="reqBody.keyWordsEng"
+                                  required="required"/> 
             </div>
             <h2 class="paragraph-title mt-8" data-paragraph-index="2">Інформація про авторів</h2>
             <div class="percent-wrap" data-pervent-val="90%">
               <p class="mt-2">
-                <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>Усі поля є обов’язковими для заповнення
+                <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>
+                Поля з <span class="text-red-700 font-bold">*</span> є обов’язковими для заповнення
               </p>   
               <div v-for="(author, index) in authors" :key="author">
-                  <h3 class="mt-6">Автор {{index + 1}}</h3>
+                  <h3 class="mt-6" v-if="index === 0">Автор 1</h3>
+                  <h3 class="mt-6" v-else>
+                    Автор {{index + 1}}
+                    <button class="text-red-500 bg-red-200 px-3 py-2 rounded-full font-bold cursor-pointer ml-6"
+                            @click="removeAuthor(index)">
+                      Видалити автора
+                      <font-awesome-icon icon="times" class="ml-2.5"/>
+                    </button>
+                  </h3>
                   <div class="grid grid-cols-3 gap-x-5 gap-y-6 mt-6">
                       <BaseInput  name="name"
                                   placeholder="Ім’я"
-                                  v-model="author.name"/>
+                                  v-model="author.name"
+                                  required="required"/>
                       <BaseInput  name="surname"
                                   placeholder="Прізвище"
-                                  v-model="author.surname"/>  
+                                  v-model="author.surname"
+                                  required="required"/>  
                       <BaseInput  name="patronymic"
                                   placeholder="По батькові"
-                                  v-model="author.patronymic"/>
+                                  v-model="author.patronymic"
+                                  required="required"/>
                       <BaseInput  name="nameEng"
                                   placeholder="Ім’я англ."
-                                  v-model="author.nameEng"/>  
+                                  v-model="author.nameEng"
+                                  required="required"/>  
                       <BaseInput  name="surnameEng"
                                   placeholder="Прізвище англ."
-                                  v-model="author.surnameEng"/>
+                                  v-model="author.surnameEng"
+                                  required="required"/>
                   </div>
                   <div class="grid grid-cols-2 gap-6 mt-6">
-                      <BaseInput  name="scientificDegree"
-                                  placeholder="Наукова ступінь"
-                                  v-model="author.scientificDegree"/>
-                      <BaseInput  name="academicStatus"
-                                  placeholder="Вчене звання"
-                                  v-model="author.academicStatus"/>  
+                      <BaseSelectInput  name="scientificDegree"
+                                      placeholder="Наукова ступінь"
+                                      :options="['Кандидат наук', 'Доктор наук']"
+                                      v-model="author.scientificDegree"/>      
+                      <BaseSelectInput  name="academicStatus"
+                                      placeholder="Вчене звання"
+                                      :options="['Асистент', 'Доцент', 'Старший дослідник', 'Професор']"
+                                      v-model="author.academicStatus"/>      
                       <BaseInput  name="position-placeOfWork-Training"
-                                  placeholder="Посада, місце роботи, навчання"
-                                  v-model="author.position"/>
-                      <BaseInput  name="educationalQualificationLevel"
-                                  placeholder="Освітньо-кваліфікаційний рівень"
-                                  v-model="author.educationalQualificationLevel"/>  
+                                  placeholder="Місце роботи/навчання"
+                                  v-model="author.position"
+                                  required="required"/>
+                      <BaseSelectInput  name="educationalQualificationLevel"
+                                      placeholder="Освітньо-кваліфікаційний рівень"
+                                      :options="['Бакалавр', 'Магістр']"
+                                      v-model="author.educationalQualificationLevel"/>      
                       <BaseInput  name="department-faculty"
-                                  placeholder="Кафедра, факультет, ВНЗ"
+                                  placeholder="Факультет"
                                   v-model="author.faculty"/>
                       <BaseInput  name="speciality"
                                   placeholder="Спеціальність"
                                   v-model="author.speciality"/>
                   </div>
-                  <BaseInput  class="mt-6"
-                              name="titleOfTheReport"
-                              placeholder="Назва доповіді"
-                              v-model="author.titleOfTheReport"/>
                   <div class="flex mt-6 gap-6">
                       <BaseSelectInput  name="formOfParticipation"
                                       placeholder="Форма участі"
                                       :options="['Очна', 'Заочна']"
-                                      v-model="author.formOfParticipation"/>          
-                      <BaseInput  name="arrivalDate"
-                                  type="date"
-                                  data-input-top-placeholder="Дата приїзду"
-                                  v-model="author.arrivalDate"/>          
-                      <BaseInput  name="departureDate"
-                                  type="date"
-                                  data-input-top-placeholder="Дата від’їзду"
-                                  v-model="author.departureDate"/>                      
+                                      v-model="author.formOfParticipation"
+                                      required="required"/>       
+                      <div v-if="author.formOfParticipation === 'Очна'" class="flex gap-6">
+                        <BaseInput  name="arrivalDate"
+                                    type="date"
+                                    labelPlaceHolder="Дата приїзду"
+                                    v-model="author.arrivalDate"
+                                    required="required"/>          
+                        <BaseInput  name="departureDate"
+                                    type="date"
+                                    labelPlaceHolder="Дата від’їзду"
+                                    v-model="author.departureDate"
+                                    required="required"/>       
+                      </div>               
                   </div>
                   <div class="flex gap-6 mt-6">
                       <BaseInput  name="phone"
                                   placeholder="Телефон"
-                                  v-model="author.phone"/>
+                                  v-model="author.phone"
+                                  required="required"/>
                       <BaseInput  name="email"
+                                  type="email"
                                   placeholder="Email"
-                                  v-model="author.email"/>      
+                                  v-model="author.email"
+                                  required="required"/>      
                   </div>      
               </div>
               <div class="mt-8">
@@ -135,8 +164,13 @@
             <h2 class="paragraph-title mt-8" data-paragraph-index="3">Прикрепіть файл</h2>
               <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
               <p class="mt-2">Формати: doc, docx.</p>
-              <div class="percent-wrap mt-6" data-pervent-val="100%">
-                <BaseInputFile  name="uploadFile" v-model="reqBody.uploadFile"/>
+              <div class="percent-wrap mt-6 flex gap-6 place-items-center" data-pervent-val="100%">
+                <BaseInputFile  name="uploadFile" v-model="reqBody.uploadFile"
+                      accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                <p v-if="reqBody.uploadFile" class="font-semibold">
+                  <font-awesome-icon icon="check-circle" class="mr-2"/>
+                  {{reqBody.uploadFile.name}}
+                </p>
               </div>
               <BaseButton class="mt-8" 
                   title="Відправити"
@@ -180,7 +214,10 @@ export default defineComponent({
     const authors = reactive([{}])
 
     const addAuthor = () => {
-        authors.push({})
+      authors.push({})
+    }
+    const removeAuthor = (index) => {
+      authors.splice(index, 1)
     }
 
     return {
@@ -188,7 +225,8 @@ export default defineComponent({
       reqBody,
       maxAuthors,
       authors,
-      addAuthor
+      addAuthor,
+      removeAuthor
     }
   }
 })

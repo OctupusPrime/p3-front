@@ -4,7 +4,9 @@
         <input  class="w-0"
                 type="file"
                 :name="name"
-                @change="fileToBuffer($event.target)">
+                :accept="accept"
+                :required="required"
+                @change="$emit('update:modelValue', $event.target.files[0])">
     </label>
 </template>
 
@@ -18,27 +20,9 @@ export default defineComponent({
       required: true,
       type: String
     },
-    modelValue: File
-  },
-  setup(props, {emit}) {
-    const fileToBuffer = (elem) => {
-      // const reader = new FileReader()
-
-    //   reader.onload = function() {
-
-    //   const arrayBuffer = this.result
-    //     // array = new Uint8Array(arrayBuffer),
-    //     // binaryString = String.fromCharCode.apply(null, array);
-      
-    // console.log(arrayBuffer);
-    //   }
-    console.log(elem.files[0].path);
-    emit('update:modelValue', elem.files[0])
-      // reader.readAsArrayBuffer(elem.files[0]);
-    }
-    return {
-      fileToBuffer
-    }
+    accept: String,
+    modelValue: File,
+    required: String,
   }
 })
 </script>
