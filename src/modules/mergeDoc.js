@@ -12,7 +12,7 @@ export default function useMergeDoc() {
 
         try {
             reqStatus.value = 'pending'
-            await axios.post('http://localhost:3000/api/upload', formData, {
+            await axios.post('https://p3m-back.herokuapp.com/api/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

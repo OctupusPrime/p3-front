@@ -1,4 +1,8 @@
 <template>
+  <ModalWindow v-if="ServerError">
+    <h2 class="text-red-500 text-3xl font-medium">Сервер не відповідає</h2>
+    <p class="mt-6 text-xl">Спробуйте зайти пізніше або перезавантажити сторінку.</p>
+  </ModalWindow>
   <div class="box-content mx-auto max-w-5xl w-[95%] py-14">
     <div class="rounded-2xl bg-white py-14  lg:pr-20 lg:pl-0 md:pr-10 md:pl-0 px-5">
       <div class="md:pl-[17%]">
@@ -164,7 +168,7 @@
             <h2 class="paragraph-title mt-8" data-paragraph-index="3">Прикрепіть файл</h2>
               <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
               <p class="mt-2">Формати: doc, docx.</p>
-              <div class="percent-wrap mt-6 grid gap-6 place-items-center grid-cols-1 sm:grid-cols-2" data-pervent-val="100%">
+              <div class="percent-wrap mt-6 grid gap-6 place-items-center justify-items-center sm:justify-items-start grid-cols-1 sm:grid-cols-2" data-pervent-val="100%">
                 <BaseInputFile  name="uploadFile" v-model="reqBody.uploadFile"
                       accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
                 <p v-if="reqBody.uploadFile" class="font-semibold">
@@ -176,13 +180,12 @@
                   {{uploadFileErr}}
                 </p>
               </div>
-              <div class="grid gap-6 place-items-center mt-8 grid-cols-1 sm:grid-cols-2">
+              <div class="grid gap-6 place-items-center justify-items-center sm:justify-items-start sm:place-items-start mt-8 grid-cols-1 sm:grid-cols-2">
                 <BaseButton title="Відправити"
                     type="submit"
                     ref="submitBtn"
                     :loader="reqStatus"/>
-                <p>Lorem ipsum dolor sit amet.</p>
-                <!-- <p v-if="reqStatus === 'pending'">
+                <p v-if="reqStatus === 'pending'">
                   Надсилання запиту в середньому займає 10 - 20 секунд
                 </p>
                 <p v-else-if="reqStatus === 'resolve'">
@@ -190,7 +193,7 @@
                 </p>   
                 <p v-else-if="reqStatus === 'reject'" class="text-red-500 font-bold">
                   {{reqError}}
-                </p>           -->
+                </p>          
               </div>
           </form>
         </div>
@@ -201,13 +204,17 @@
 
 <script>
 import { defineComponent, reactive, ref } from 'vue'
+
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseResizeTextArea from '@/components/BaseResizeTextArea.vue'
 import BaseSelectInput from '@/components/BaseSelectInput.vue'
 import BaseInputFile from '@/components/BaseInputFile.vue'
 
+import ModalWindow from '@/components/ModalWindow.vue'
+
 import useMergeDoc from '../modules/mergeDoc'
+import getStatus from '../modules/getStatus'
 export default defineComponent({
   name: 'Home',
   components: {
@@ -215,9 +222,14 @@ export default defineComponent({
     BaseResizeTextArea,
     BaseInputFile,
     BaseButton,
-    BaseSelectInput
+    BaseSelectInput,
+
+    ModalWindow
   },
   setup() {
+    const { error: ServerError, check } = getStatus()
+    check()
+
     const { reqStatus, reqError, send } = useMergeDoc()
 
     const reqBody = reactive({
@@ -246,6 +258,8 @@ export default defineComponent({
     }
 
     return {
+      ServerError,
+
       sendForm,
       reqBody,
       uploadFileErr,
