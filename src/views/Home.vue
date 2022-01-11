@@ -1,13 +1,13 @@
 <template>
   <div class="box-content mx-auto max-w-5xl w-[95%] py-14">
-    <div class="rounded-2xl bg-white py-14 pr-20">
-      <div class="pl-[17%]">
+    <div class="rounded-2xl bg-white py-14  lg:pr-20 lg:pl-0 md:pr-10 md:pl-0 px-5">
+      <div class="md:pl-[17%]">
         <h1 class="text-4xl font-semibold text-blue-500">Міжнародна конференція P3M</h1>
         <h3 class="text-2xl font-medium mt-4">Заявка на участь</h3>
         <p class="mt-2">Якщо ви тупий - дивитесь <a href="/">приклад</a></p>
       </div>
       <div class="flex mt-10">
-        <div class="left-line w-[20%]">
+        <div class="left-line w-[20%] md:block hidden">
           <div class="absolute left-[50%] bottom-0 translate-x-[-50%] pb-[11px] bg-white">
             <font-awesome-icon icon="flag-checkered" class="text-3xl"/>
           </div>
@@ -20,16 +20,16 @@
                 <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>
                 Поля з <span class="text-red-700 font-bold">*</span> є обов’язковими для заповнення
               </p>
-              <div class="flex gap-6 mt-6">
-                  <BaseInput  name="theseName"
-                              placeholder="Назва тези"
-                              v-model="reqBody.theseName"
-                              required="required"/>
-                  <BaseInput  name="theseNameEng"
-                              placeholder="Назва тези англійською"
-                              v-model="reqBody.theseNameEng"
-                              required="required"/>      
-              </div>
+              <BaseInput  class="mt-6"
+                          name="theseName"
+                          placeholder="Назва тези"
+                          v-model="reqBody.theseName"
+                          required="required"/>
+              <BaseInput  class="mt-6"
+                          name="theseNameEng"
+                          placeholder="Назва тези англійською"
+                          v-model="reqBody.theseNameEng"
+                          required="required"/>      
               <BaseResizeTextArea class="mt-6"
                                   name="summary"
                                   minHeight="100"
@@ -75,7 +75,7 @@
                       <font-awesome-icon icon="times" class="ml-2.5"/>
                     </button>
                   </h3>
-                  <div class="grid grid-cols-3 gap-x-5 gap-y-6 mt-6">
+                  <div class="grid gap-x-5 gap-y-6 mt-6 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
                       <BaseInput  name="name"
                                   placeholder="Ім’я"
                                   v-model="author.name"
@@ -97,7 +97,7 @@
                                   v-model="author.surnameEng"
                                   required="required"/>
                   </div>
-                  <div class="grid grid-cols-2 gap-6 mt-6">
+                  <div class="grid gap-6 mt-6 md:grid-cols-2 grid-cols-1">
                       <BaseSelectInput  name="scientificDegree"
                                       placeholder="Наукова ступінь"
                                       :options="['Кандидат наук', 'Доктор наук']"
@@ -121,26 +121,26 @@
                                   placeholder="Спеціальність"
                                   v-model="author.speciality"/>
                   </div>
-                  <div class="flex mt-6 gap-6">
+                  <div class="grid mt-6 gap-6 grid-cols-1 md:grid-cols-3">
                       <BaseSelectInput  name="formOfParticipation"
                                       placeholder="Форма участі"
                                       :options="['Очна', 'Заочна']"
                                       v-model="author.formOfParticipation"
                                       required="required"/>       
-                      <div v-if="author.formOfParticipation === 'Очна'" class="flex gap-6">
-                        <BaseInput  name="arrivalDate"
-                                    type="date"
-                                    labelPlaceHolder="Дата приїзду"
-                                    v-model="author.arrivalDate"
-                                    required="required"/>          
-                        <BaseInput  name="departureDate"
-                                    type="date"
-                                    labelPlaceHolder="Дата від’їзду"
-                                    v-model="author.departureDate"
-                                    required="required"/>       
-                      </div>               
+                      <BaseInput  name="arrivalDate"
+                                  type="date"
+                                  labelPlaceHolder="Дата приїзду"
+                                  v-model="author.arrivalDate"
+                                  required="required"
+                                  v-if="author.formOfParticipation === 'Очна'"/>          
+                      <BaseInput  name="departureDate"
+                                  type="date"
+                                  labelPlaceHolder="Дата від’їзду"
+                                  v-model="author.departureDate"
+                                  required="required"
+                                  v-if="author.formOfParticipation === 'Очна'"/>                 
                   </div>
-                  <div class="flex gap-6 mt-6">
+                  <div class="grid gap-6 mt-6 grid-cols-1 md:grid-cols-2">
                       <BaseInput  name="phone"
                                   placeholder="Телефон"
                                   v-model="author.phone"
@@ -152,7 +152,7 @@
                                   required="required"/>      
                   </div>      
               </div>
-              <div class="mt-8">
+              <div class="mt-8 sm:text-left text-center">
                   <BaseButton title="Додати автора" 
                               icon="user-plus"
                               styled="secondary"
@@ -164,7 +164,7 @@
             <h2 class="paragraph-title mt-8" data-paragraph-index="3">Прикрепіть файл</h2>
               <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
               <p class="mt-2">Формати: doc, docx.</p>
-              <div class="percent-wrap mt-6 flex gap-6 place-items-center" data-pervent-val="100%">
+              <div class="percent-wrap mt-6 grid gap-6 place-items-center grid-cols-1 sm:grid-cols-2" data-pervent-val="100%">
                 <BaseInputFile  name="uploadFile" v-model="reqBody.uploadFile"
                       accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
                 <p v-if="reqBody.uploadFile" class="font-semibold">
@@ -176,12 +176,13 @@
                   {{uploadFileErr}}
                 </p>
               </div>
-              <div class="flex gap-6 place-items-center mt-8">
+              <div class="grid gap-6 place-items-center mt-8 grid-cols-1 sm:grid-cols-2">
                 <BaseButton title="Відправити"
                     type="submit"
                     ref="submitBtn"
                     :loader="reqStatus"/>
-                <p v-if="reqStatus === 'pending'">
+                <p>Lorem ipsum dolor sit amet.</p>
+                <!-- <p v-if="reqStatus === 'pending'">
                   Надсилання запиту в середньому займає 10 - 20 секунд
                 </p>
                 <p v-else-if="reqStatus === 'resolve'">
@@ -189,7 +190,7 @@
                 </p>   
                 <p v-else-if="reqStatus === 'reject'" class="text-red-500 font-bold">
                   {{reqError}}
-                </p>          
+                </p>           -->
               </div>
           </form>
         </div>
@@ -267,7 +268,7 @@ export default defineComponent({
 .paragraph-title::before {
   content: attr(data-paragraph-index);
   @apply absolute top-[50%] left-[-10%] translate-x-[-50%] translate-y-[-50%]
-  text-5xl bg-white;
+  text-5xl bg-white md:block hidden;
 }
 .left-line {
   @apply relative;
@@ -281,6 +282,6 @@ export default defineComponent({
 }
 .percent-wrap::before {
   content: attr(data-pervent-val);
-  @apply absolute top-[50%] left-[-10%] translate-x-[-50%] translate-y-[-50%] bg-white text-gray-500;
+  @apply absolute top-[50%] left-[-10%] translate-x-[-50%] translate-y-[-50%] bg-white text-gray-500 md:block hidden;
 }
 </style>
