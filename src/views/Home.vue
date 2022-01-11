@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="w-full">
-          <form @submit.prevent="send" @keydown.enter.prevent>
+          <form @submit.prevent="sendForm" @keydown.enter.prevent>
             <h2 class="paragraph-title" data-paragraph-index="1">Дані про тезу</h2>
             <div class="percent-wrap" data-pervent-val="30%">
               <p class="mt-2">
@@ -65,7 +65,7 @@
                 <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>
                 Поля з <span class="text-red-700 font-bold">*</span> є обов’язковими для заповнення
               </p>   
-              <div v-for="(author, index) in authors" :key="author">
+              <div v-for="(author, index) in reqBody.authors" :key="author">
                   <h3 class="mt-6" v-if="index === 0">Автор 1</h3>
                   <h3 class="mt-6" v-else>
                     Автор {{index + 1}}
@@ -156,7 +156,7 @@
                   <BaseButton title="Додати автора" 
                               icon="user-plus"
                               styled="secondary"
-                              v-if="authors.length < maxAuthors"
+                              v-if="reqBody.authors.length < maxAuthors"
                               @click="addAuthor"/>
                   <p v-else>Максимальна кількість авторів {{maxAuthors}}.</p>
               </div>
@@ -171,10 +171,26 @@
                   <font-awesome-icon icon="check-circle" class="mr-2"/>
                   {{reqBody.uploadFile.name}}
                 </p>
+                <p v-else-if="uploadFileErr" class="text-red-500 font-bold">
+                  <font-awesome-icon icon="exclamation-triangle" class="mr-2.5"/>
+                  {{uploadFileErr}}
+                </p>
               </div>
-              <BaseButton class="mt-8" 
-                  title="Відправити"
-                  type="submit"/>
+              <div class="flex gap-6 place-items-center mt-8">
+                <BaseButton title="Відправити"
+                    type="submit"
+                    ref="submitBtn"
+                    :loader="reqStatus"/>
+                <p v-if="reqStatus === 'pending'">
+                  Надсилання запиту в середньому займає 10 - 20 секунд
+                </p>
+                <p v-else-if="reqStatus === 'resolve'">
+                  Запит відправлений незабаром з вами зв'яжуться
+                </p>   
+                <p v-else-if="reqStatus === 'reject'" class="text-red-500 font-bold">
+                  {{reqError}}
+                </p>          
+              </div>
           </form>
         </div>
       </div>
@@ -183,13 +199,14 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-import { useStore } from "vuex"
+import { defineComponent, reactive, ref } from 'vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseResizeTextArea from '@/components/BaseResizeTextArea.vue'
 import BaseSelectInput from '@/components/BaseSelectInput.vue'
 import BaseInputFile from '@/components/BaseInputFile.vue'
+
+import useMergeDoc from '../modules/mergeDoc'
 export default defineComponent({
   name: 'Home',
   components: {
@@ -200,33 +217,44 @@ export default defineComponent({
     BaseSelectInput
   },
   setup() {
-    const store = useStore()
+    const { reqStatus, reqError, send } = useMergeDoc()
 
-    const reqBody = reactive({})
+    const reqBody = reactive({
+      authors: [{}]
+    })
+    const uploadFileErr = ref(null)
 
-    const send = () => {
-      reqBody.authors = [...authors]
-      console.log(reqBody);
-      store.dispatch('getStatus', reqBody)
+    const sendForm = async () => {
+      if (!reqBody.uploadFile) 
+        return uploadFileErr.value = 'Прикрепіть файл'
+
+      if (reqStatus.value !== 'pending' && reqStatus.value !== 'resolve') {
+        for (let author of reqBody.authors) {
+          author.theseName = reqBody.theseName
+        }
+        await send(reqBody)
+      }
     }
 
     const maxAuthors = 3
-    const authors = reactive([{}])
-
     const addAuthor = () => {
-      authors.push({})
+      reqBody.authors.push({})
     }
     const removeAuthor = (index) => {
-      authors.splice(index, 1)
+     reqBody.authors.splice(index, 1)
     }
 
     return {
-      send,
+      sendForm,
       reqBody,
+      uploadFileErr,
+
       maxAuthors,
-      authors,
       addAuthor,
-      removeAuthor
+      removeAuthor,
+
+      reqError,
+      reqStatus
     }
   }
 })

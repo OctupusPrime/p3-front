@@ -2,7 +2,12 @@
     <button class="btn"
             :class="['btn-' + styled]"
             type="button">
-        <font-awesome-icon v-if="icon" :icon="icon" class="mr-2.5"/>{{title}}
+            <font-awesome-icon icon="spinner" pulse v-if="loader === 'pending'"/>
+            <font-awesome-icon icon="check-circle" v-else-if="loader === 'resolve'"/>
+            <font-awesome-icon icon="times" v-else-if="loader === 'reject'"/>
+        <span v-else>
+            <font-awesome-icon v-if="icon" :icon="icon" class="mr-2.5"/>{{title}}
+        </span>
     </button>
 </template>
 
@@ -18,7 +23,8 @@ export default {
         styled: {
             default: 'primary',
             type: String
-        }
+        },
+        loader: String
     }
 }
 </script>

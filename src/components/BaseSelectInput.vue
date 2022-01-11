@@ -3,6 +3,7 @@
         <select class="base-input" 
                 :name="name"
                 :value="modelValue"
+                :required="required"
                 @change="$emit('update:modelValue', $event.target.value)">  
             <option value="" disabled selected>{{placeholder}}</option>
             <option v-for="option in options" :key="option" :value="option">{{option}}</option>
