@@ -8,7 +8,7 @@
       <div class="md:pl-[17%]">
         <h1 class="text-4xl font-semibold text-blue-500">Міжнародна конференція P3M</h1>
         <h3 class="text-2xl font-medium mt-4">Заявка на участь</h3>
-        <p class="mt-2">Якщо ви тупий - дивитесь <a href="/">приклад</a></p>
+        <p class="mt-2">Якщо не зрозуміло дивитесь <a href="https://drive.google.com/file/d/1XaWjTN0JSyyi9iffqbAFN4NWmySmvFv5/view?usp=sharing" target="_blank">приклад</a></p>
       </div>
       <div class="flex mt-10">
         <div class="left-line w-[20%] md:block hidden">
@@ -166,8 +166,11 @@
               </div>
             </div>
             <h2 class="paragraph-title mt-8" data-paragraph-index="3">Прикрепіть файл</h2>
-              <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="/">шаблоном</a></p>
+              <p class="mt-6">Прикладіть файл з тезами, оформлений згідно з <a href="https://docs.google.com/document/d/1LQOVUZOO6CJFDyXIZwXdf39S044y5ns9/edit?rtpof=true" target="_blank">шаблоном</a></p>
               <p class="mt-2">Формати: doc, docx.</p>
+              <p class="mt-2 text-red-500 bg-red-200 px-3 py-2 rounded font-semibold">
+                Прикрепить файл с шрифтом Times New Roman, <strong>ДЖЕРЕЛА</strong> сделать в виде нумерованного списка и <strong>обязательно его закрыть</strong> (можно писать  после списка) остальное приложение сделает само.
+              </p>
               <div class="percent-wrap mt-6 grid gap-6 place-items-center justify-items-center sm:justify-items-start grid-cols-1 sm:grid-cols-2" data-pervent-val="100%">
                 <BaseInputFile  name="uploadFile" v-model="reqBody.uploadFile"
                       accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
